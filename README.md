@@ -26,11 +26,12 @@ Antes de usar o CloneCat, certifique-se de ter:
    git clone https://github.com/seu-usuario/clonecat.git
    cd clonecat
 
-Instale as dependências:
+2. Instale as dependências:
 
+```bash
 pip install -r requirements.txt
 
-Configure suas credenciais do Telegram:
+3. Configure suas credenciais do Telegram:
 
 Na primeira execução, o script solicitará seu API ID e API Hash, que podem ser obtidos aqui (https://my.telegram.org/). Essas credenciais serão salvas automaticamente para reutilização futura.
 
