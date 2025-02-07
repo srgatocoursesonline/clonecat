@@ -25,3 +25,35 @@ Antes de usar o CloneCat, certifique-se de ter:
    ```bash
    git clone https://github.com/seu-usuario/clonecat.git
    cd clonecat
+
+Instale as dependências:
+
+pip install -r requirements.txt
+
+Configure suas credenciais do Telegram:
+
+Na primeira execução, o script solicitará seu API ID e API Hash, que podem ser obtidos aqui (https://my.telegram.org/). Essas credenciais serão salvas automaticamente para reutilização futura.
+
+Uso
+Execute o script principal:
+
+python clonecat.py
+
+Siga os passos no terminal:
+
+Digite o ID do canal de origem.
+
+O script criará automaticamente um canal de destino e iniciará a clonagem das mensagens.
+
+Ao final, será exibido o link do canal clonado.
+
+Considerações
+
+O script respeita os limites de envio do Telegram com um intervalo padrão de 5 segundos entre as mensagens. Esse valor pode ser ajustado diretamente no código.
+
+Cuidado: Evite clonar canais com grandes volumes de dados em curto intervalo de tempo para não violar as políticas do Telegram.
+
+Contribuindo
+Sinta-se à vontade para abrir issues ou enviar pull requests para melhorias no CloneCat.
+
+By Mr. Cat
