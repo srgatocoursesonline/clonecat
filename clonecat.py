@@ -76,18 +76,37 @@ def create_destination_channel(client, origin_chat_id):
         print(f"Erro ao criar canal de destino: {e}")
         exit()
 
-# Função para buscar o menu no canal original
-def get_menu_from_channel(client, origin_chat):
-    try:
-        pinned_message = client.get_messages(origin_chat, filter="pinned")
-        if pinned_message:
-            return pinned_message.text
-        last_message = client.get_messages(origin_chat, limit=1)[0]
-        if last_message and last_message.text:
-            return last_message.text
-    except Exception as e:
-        logging.error(f"Erro ao buscar menu: {e}")
-    return None
+# Função para exibir o menu de seleção de conteúdo
+def select_content_type():
+    print("\nO que deseja clonar?\n")
+    print("1 - Todas as Mensagens")
+    print("2 - Apenas Imagens")
+    print("3 - Apenas Vídeos")
+    print("4 - Apenas Áudios")
+    print("5 - Apenas Documentos")
+    print("6 - Apenas Texto")
+    print("7 - Apenas Stickers")
+    print("8 - Tudo (Mensagens, Imagens, Vídeos, Áudios, Stickers, Documentos...)")
+    choice = input("\nEscolha uma opção (1-8): ").strip()
+    if choice == "1":
+        return ["text", "photo", "video", "audio", "document", "sticker"]
+    elif choice == "2":
+        return ["photo"]
+    elif choice == "3":
+        return ["video"]
+    elif choice == "4":
+        return ["audio"]
+    elif choice == "5":
+        return ["document"]
+    elif choice == "6":
+        return ["text"]
+    elif choice == "7":
+        return ["sticker"]
+    elif choice == "8":
+        return ["text", "photo", "video", "audio", "document", "sticker"]
+    else:
+        print("Escolha inválida! Tente novamente.")
+        return select_content_type()
 
 # Função principal
 def main():
@@ -112,6 +131,9 @@ def main():
         # Cria o canal de destino automaticamente
         destination_chat, channel_name, channel_description = create_destination_channel(client, origin_chat)
 
+        # Exibe o menu e seleciona o tipo de conteúdo a clonar
+        content_types = select_content_type()
+
         # Obtém histórico de mensagens
         print("Obtendo histórico de mensagens...")
         messages = list(client.iter_messages(origin_chat))
@@ -128,16 +150,20 @@ def main():
                     # Captura a legenda, verificando tanto em "caption" quanto no próprio texto
                     caption = message.caption if hasattr(message, "caption") else message.message or ""
 
-                    if message.photo:
+                    # Filtra mensagens com base no tipo selecionado
+                    if "photo" in content_types and message.photo:
                         client.send_file(destination_chat, message.photo, caption=caption)
-                    elif message.video:
+                    elif "video" in content_types and message.video:
                         client.send_file(destination_chat, message.video, caption=caption, supports_streaming=True)
-                    elif message.audio:
+                    elif "audio" in content_types and message.audio:
                         client.send_file(destination_chat, message.audio, caption=caption)
-                    elif message.document:
+                    elif "document" in content_types and message.document:
                         client.send_file(destination_chat, message.document, caption=caption)
-                    elif message.text:
+                    elif "text" in content_types and message.text:
                         client.send_message(destination_chat, message.text)
+                    elif "sticker" in content_types and message.sticker:
+                        client.send_file(destination_chat, message.sticker)
+
                     # Delay entre os envios
                     time.sleep(MESSAGE_DELAY)
                 except FloodWaitError as e:
