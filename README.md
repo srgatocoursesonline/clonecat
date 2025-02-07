@@ -19,7 +19,7 @@ CloneCat é uma ferramenta poderosa e automatizada para clonar canais do Telegra
 
 Antes de usar o CloneCat, certifique-se de ter:
 
-1. Python 3.8 ou superior instalado.
+1. Python 3.8 ou superior instalado. https://www.python.org/
 2. Biblioteca `telethon` e outras dependências listadas em `requirements.txt`.
 
 ## Instalação
