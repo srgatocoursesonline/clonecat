@@ -1,0 +1,4 @@
+plaintext
+telethon==1.27.0
+colorama==0.4.6
+tqdm==4.65.0
