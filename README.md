@@ -1,13 +1,5 @@
 # CLONECAT
 
-  ______  __        ______   .__   __.  _______   ______      ___      .___________.
- /      ||  |      /  __  \  |  \ |  | |   ____| /      |    /   \     |           |
-|  ,----'|  |     |  |  |  | |   \|  | |  |__   |  ,----'   /  ^  \    `---|  |----`
-|  |     |  |     |  |  |  | |  . `  | |   __|  |  |       /  /_\  \       |  |     
-|  `----.|  `----.|  `--'  | |  |\   | |  |____ |  `----. /  _____  \      |  |     
- \______||_______| \______/  |__| \__| |_______| \______|/__/     \__\     |__|     
-    """
-
 # CloneCat - Telegram Channel Cloner
 
 CloneCat é uma ferramenta poderosa e automatizada para clonar canais do Telegram. Com ela, você pode copiar mensagens, mídias (fotos, vídeos, áudios, documentos) e menus de um canal de origem para um novo canal automaticamente criado.
