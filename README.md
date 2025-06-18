@@ -64,6 +64,28 @@ python clonecat.py
 
 5. Aguarde a conclusão do processo
 
+## 🖥️ Interface Gráfica (GUI)
+
+- Interface moderna com tema escuro
+- Barra de progresso em tempo real
+- Exportação de histórico de clonagens em CSV
+- Exibição de nome e link do canal de destino ao final da clonagem
+- Totalmente integrada com a lógica do terminal (CLI)
+
+### Como usar a GUI
+
+1. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Execute a interface gráfica:
+   ```bash
+   python -m gui.main_window
+   ```
+3. Preencha o ID do canal de origem e, se quiser, o canal de destino.
+4. Clique em "Iniciar Clonagem" e acompanhe o progresso em tempo real.
+5. Ao final, exporte o histórico se desejar.
+
 ## ⚠️ Considerações Importantes
 
 - O script respeita os limites do Telegram com intervalo padrão de 5 segundos entre mensagens
