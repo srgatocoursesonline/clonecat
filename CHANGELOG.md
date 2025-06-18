@@ -42,5 +42,19 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - Configuração básica do ambiente
 - Primeira versão funcional do script de clonagem
 
+## [1.1.0] - 2025-06-18
+
+### Adicionado
+- Verificação inteligente de proteção de conteúdo do canal antes de iniciar a clonagem
+- Mensagens de erro amigáveis e explicativas sobre restrições, permissões e possíveis causas de falha
+- Atualização do README.md com recomendações e restrições sobre proteção de conteúdo e permissões do Telegram
+
+### Corrigido
+- Melhor tratamento de erros ao criar canal de destino
+- Garantia de clonagem completa apenas quando permissões e configurações permitem
+
+### Melhorado
+- UX do script, com avisos claros e instruções para o usuário
+
 [1.0.0]: https://github.com/seu-usuario/clonecat/compare/v0.1.0...v1.0.0
 [0.1.0]: https://github.com/seu-usuario/clonecat/releases/tag/v0.1.0 
