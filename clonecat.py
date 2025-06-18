@@ -6,7 +6,7 @@ from telethon.sync import TelegramClient
 from telethon.tl.functions.channels import CreateChannelRequest, GetFullChannelRequest
 from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.errors.rpcerrorlist import FloodWaitError, RPCError, ChatAdminRequiredError
-from telethon.tl.types import MessageService
+from telethon.tl.types import MessageService, Channel
 from colorama import Fore, Style, init
 from tqdm import tqdm
 
@@ -25,7 +25,7 @@ MESSAGE_DELAY = 5  # 5000ms = 5 segundos
 
 # Função para exibir ASCII Art
 def print_ascii_art():
-    ascii_art = f"""{Fore.GREEN}
+    ascii_art = rf"""{Fore.GREEN}
   ______  __        ______   .__   __.  _______   ______      ___      .___________.
  /      ||  |      /  __  \  |  \ |  | |   ____| /      |    /   \     |           |
 |  ,----'|  |     |  |  |  | |   \|  | |  |__   |  ,----'   /  ^  \    `---|  |----`
@@ -72,8 +72,13 @@ def create_destination_channel(client, origin_chat_id):
         print(f"Canal criado com sucesso! Nome: {origin_title} - Clone | ID do Canal: {channel_id}")
         return channel_id, origin_title, channel_description
     except Exception as e:
+        print("\n❌ Não foi possível criar o canal de destino ou acessar o canal de origem.")
+        print("Motivos possíveis:")
+        print("- O canal de origem está com a proteção de conteúdo ativada (Restringir salvamento de conteúdo)")
+        print("- O canal de origem é privado e sua conta não tem permissão de acesso total")
+        print("- O ID informado está incorreto ou sua conta não é membro do canal")
+        print(f"Detalhes técnicos: {e}")
         logging.error(f"Erro ao criar canal de destino: {e}")
-        print(f"Erro ao criar canal de destino: {e}")
         exit()
 
 # Função para exibir o menu de seleção de conteúdo
@@ -108,6 +113,41 @@ def select_content_type():
         print("Escolha inválida! Tente novamente.")
         return select_content_type()
 
+# Função para buscar o menu (mensagem fixada) do canal de origem
+def get_menu_from_channel(client, origin_chat_id):
+    try:
+        # 1. Tenta buscar a mensagem fixada
+        full_channel = client(GetFullChannelRequest(origin_chat_id))
+        pinned_msg_id = getattr(full_channel.full_chat, 'pinned_msg_id', None)
+        if pinned_msg_id:
+            pinned_msg = client.get_messages(origin_chat_id, ids=pinned_msg_id)
+            if pinned_msg and (pinned_msg.text or pinned_msg.message):
+                return (pinned_msg.text or pinned_msg.message, pinned_msg.id)
+        # 2. Se não houver mensagem fixada, busca entre as primeiras 10 mensagens por palavras-chave
+        keywords = ["menu", "navegação", "clique aqui", "#", "conteúdo"]
+        for message in client.iter_messages(origin_chat_id, limit=10):
+            content = (message.text or message.message or "").lower()
+            if any(kw in content for kw in keywords):
+                if len(content) > 100 or content.count("#") > 3 or content.count("http") > 2:
+                    return (message.text or message.message, message.id)
+        return (None, None)
+    except Exception as e:
+        logging.error(f"Erro ao buscar menu (mensagem fixada ou por análise): {e}")
+        return (None, None)
+
+# Função para verificar se a proteção de conteúdo está ativada
+def is_content_protected(client, origin_chat_id):
+    try:
+        full_channel = client(GetFullChannelRequest(origin_chat_id))
+        # Para canais, a flag 'protected' indica proteção de conteúdo
+        if hasattr(full_channel.full_chat, 'protected'):
+            return full_channel.full_chat.protected
+        # Algumas versões usam 'can_view_stats' como proxy, mas o correto é 'protected'
+        return False
+    except Exception as e:
+        logging.error(f"Erro ao verificar proteção de conteúdo: {e}")
+        return False
+
 # Função principal
 def main():
     print_ascii_art()
@@ -128,6 +168,12 @@ def main():
             print("O ID do chat de origem deve ser um número inteiro.")
             exit()
 
+        # Verifica se a proteção de conteúdo está ativada
+        if is_content_protected(client, origin_chat):
+            print("\n⚠️ Não é possível clonar este canal pois a proteção de conteúdo está ativada!\n" \
+                  "Desative a opção 'Restringir salvamento de conteúdo' nas configurações do canal e tente novamente.")
+            return
+
         # Cria o canal de destino automaticamente
         destination_chat, channel_name, channel_description = create_destination_channel(client, origin_chat)
 
@@ -136,8 +182,17 @@ def main():
 
         # Obtém histórico de mensagens
         print("Obtendo histórico de mensagens...")
-        messages = list(client.iter_messages(origin_chat))
+        messages = list(client.iter_messages(origin_chat, limit=None))
+        print(f"Total de mensagens encontradas: {len(messages)}")
+        print(f"IDs das mensagens: {[m.id for m in messages]}")
         total_messages = len(messages)
+
+        # Busca o menu antes de clonar as mensagens
+        menu, menu_id = get_menu_from_channel(client, origin_chat)
+        print(f"Menu encontrado: {menu is not None}, ID do menu: {menu_id}")
+
+        # Coleta todos os IDs das mensagens clonadas
+        cloned_ids = set(m.id for m in messages)
 
         # Configura a barra de progresso TQDM
         with tqdm(total=total_messages, desc="Clonando mensagens", bar_format="{l_bar}{bar} {n_fmt}/{total_fmt}", colour="magenta") as progress:
@@ -174,30 +229,21 @@ def main():
                     continue
                 progress.update(1)
 
-        # Busca o menu no canal original
-        menu = get_menu_from_channel(client, origin_chat)
-
-        # Adiciona o menu ao final do canal clonado
-        if menu:
-            print("\nAdicionando menu ao final do canal...")
+        # Após clonar as mensagens, adicionar o menu ao final se ele não foi clonado
+        if menu and (menu_id not in cloned_ids):
+            print("\nAdicionando menu ao final do canal clonado...")
             client.send_message(destination_chat, menu)
             print("Menu adicionado com sucesso!")
+        elif menu:
+            print("Menu já estava entre as mensagens clonadas, não foi adicionado novamente.")
         else:
-            print("Nenhum menu foi encontrado ou adicionado.")
-
-        # Gera o link de acesso ao canal criado
-        try:
-            invite_link = client(ExportChatInviteRequest(destination_chat)).link
-        except Exception as e:
-            invite_link = "Não foi possível gerar o link."
-            logging.error(f"Erro ao gerar link do canal: {e}")
+            print("Nenhum menu encontrado para adicionar ao canal clonado.")
 
         # Exibe as informações do canal criado
         print("\nClonagem concluída com sucesso!\n")
         print(f"ID do Canal: {destination_chat}")
         print(f"Nome: {channel_name}")
         print(f"Descrição: {channel_description}")
-        print(f"Link: {invite_link}")
 
 # Inicia o script
 if __name__ == "__main__":
