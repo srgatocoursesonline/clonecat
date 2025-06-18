@@ -1,65 +1,93 @@
-# CLONECAT
+# CloneCat - Telegram Channel Cloner 🐱
 
-# CloneCat - Telegram Channel Cloner
-
-![image](https://github.com/user-attachments/assets/30f8f1de-3f37-48b6-9b2a-9918b4a3f7c8)
-
+![CloneCat Logo](https://github.com/user-attachments/assets/30f8f1de-3f37-48b6-9b2a-9918b4a3f7c8)
 
 CloneCat é uma ferramenta poderosa e automatizada para clonar canais do Telegram. Com ela, você pode copiar mensagens, mídias (fotos, vídeos, áudios, documentos) e menus de um canal de origem para um novo canal automaticamente criado.
 
-## Funcionalidades
+## ✨ Funcionalidades
 
-- Clona mensagens de texto, fotos, vídeos, áudios e documentos.
-- Mantém as legendas associadas às mídias.
-- Adiciona automaticamente o menu existente no canal original ao final do canal clonado.
-- Gera automaticamente um canal de destino com nome baseado no canal original.
-- Respeita limites do Telegram para evitar bans, com intervalo configurável entre as mensagens.
+- 📝 Clona mensagens de texto, fotos, vídeos, áudios e documentos
+- 🖼️ Mantém as legendas associadas às mídias
+- 📋 Adiciona automaticamente o menu existente no canal original
+- 🎯 Gera automaticamente um canal de destino com nome baseado no canal original
+- ⏱️ Respeita limites do Telegram para evitar bans, com intervalo configurável
+- 🔄 Suporte a diferentes tipos de conteúdo (texto, mídia, stickers)
+- 📊 Barra de progresso em tempo real
+- 🎨 Interface colorida no terminal
 
-## Pré-requisitos
+## 🚀 Pré-requisitos
 
-Antes de usar o CloneCat, certifique-se de ter:
+- Python 3.8 ou superior
+- Conta no Telegram
+- API ID e API Hash do Telegram
 
-1. Python 3.8 ou superior instalado. https://www.python.org/
-2. Biblioteca `telethon` e outras dependências listadas em `requirements.txt`.
-
-## Instalação
+## 📦 Instalação
 
 1. Clone este repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/clonecat.git
-   cd clonecat
+```bash
+git clone https://github.com/seu-usuario/clonecat.git
+cd clonecat
+```
 
 2. Instale as dependências:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Configure suas credenciais do Telegram:
+3. Obtenha suas credenciais do Telegram:
+   - Acesse https://my.telegram.org/
+   - Faça login com seu número de telefone
+   - Vá em "API development tools"
+   - Crie um novo aplicativo
+   - Copie o `api_id` e `api_hash`
 
-Na primeira execução, o script solicitará seu API ID e API Hash, que podem ser obtidos aqui (https://my.telegram.org/). Essas credenciais serão salvas automaticamente para reutilização futura.
+## 💻 Uso
 
-Uso
-
-Execute o script principal:
+1. Execute o script:
 ```bash
 python clonecat.py
 ```
 
-Siga os passos no terminal:
+2. Na primeira execução, insira suas credenciais do Telegram (API ID e API Hash)
 
-Digite o ID do canal de origem.
+3. Digite o ID do canal de origem
 
-O script criará automaticamente um canal de destino e iniciará a clonagem das mensagens.
+4. Selecione o tipo de conteúdo que deseja clonar:
+   - Todas as Mensagens
+   - Apenas Imagens
+   - Apenas Vídeos
+   - Apenas Áudios
+   - Apenas Documentos
+   - Apenas Texto
+   - Apenas Stickers
+   - Tudo
 
-Ao final, será exibido o link do canal clonado.
+5. Aguarde a conclusão do processo
 
-Considerações
+## ⚠️ Considerações Importantes
 
-O script respeita os limites de envio do Telegram com um intervalo padrão de 5 segundos entre as mensagens. Esse valor pode ser ajustado diretamente no código.
+- O script respeita os limites do Telegram com intervalo padrão de 5 segundos entre mensagens
+- Evite clonar canais com grandes volumes de dados em curto intervalo
+- Mantenha suas credenciais do Telegram seguras
+- O script salva logs de erros em `erros.log`
 
-Cuidado: Evite clonar canais com grandes volumes de dados em curto intervalo de tempo para não violar as políticas do Telegram.
+## 🤝 Contribuindo
 
-Contribuindo
-Sinta-se à vontade para abrir issues ou enviar pull requests para melhorias no CloneCat.
+Contribuições são bem-vindas! Sinta-se à vontade para:
 
-By Mr. Cat
+1. Fazer um Fork do projeto
+2. Criar uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abrir um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👨‍💻 Autor
+
+Mr. Cat
+
+---
+⭐️ Se este projeto te ajudou, considere dar uma estrela!
