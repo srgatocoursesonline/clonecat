@@ -70,6 +70,10 @@ python clonecat.py
 - Evite clonar canais com grandes volumes de dados em curto intervalo
 - Mantenha suas credenciais do Telegram seguras
 - O script salva logs de erros em `erros.log`
+- **Atenção:** Para clonar mídias (fotos, vídeos, áudios, documentos), é necessário que a opção "Restringir salvamento de conteúdo" esteja DESATIVADA no canal de origem. Caso contrário, o Telegram bloqueia o acesso via API, mesmo para administradores.
+- Se o canal for privado, sua conta precisa ser administradora ou membro antigo para acessar todo o histórico.
+- O script possui uma verificação inteligente e avisa caso a proteção de conteúdo esteja ativada ou sua conta não tenha permissão suficiente.
+- Possíveis mensagens de erro explicam como proceder para liberar o acesso ao conteúdo.
 
 ## 🤝 Contribuindo
 
