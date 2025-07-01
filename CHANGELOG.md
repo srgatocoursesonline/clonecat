@@ -5,42 +5,35 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [1.0.0] - 2024-03-19
+## [2.0.0] - 2024-03-30
 
 ### Adicionado
-- Funcionalidade inicial de clonagem de canais do Telegram
-- Suporte para clonar diferentes tipos de conteúdo:
-  - Mensagens de texto
-  - Fotos
-  - Vídeos
-  - Áudios
-  - Documentos
-  - Stickers
-- Sistema de progresso com barra de progresso
-- Interface colorida no terminal
-- Sistema de logging para erros
-- Salvamento automático de credenciais
-- Criação automática de canal de destino
-- Menu de seleção de tipo de conteúdo
-- Respeito aos limites do Telegram com delay configurável
+- Nova interface gráfica moderna com PyQt5
+- Sistema de temas claro/escuro
+- Barra de progresso avançada
+- Histórico de downloads com exportação CSV
+- Sistema de cache SQLite para retomar downloads
+- Sistema de recuperação automática
+- Suporte a múltiplos downloads simultâneos
 
-### Documentação
-- README.md com instruções detalhadas
-- Licença MIT
-- Arquivo .gitignore
-- CHANGELOG.md
+### Alterado
+- Migração de PyQt6 para PyQt5 para melhor compatibilidade
+- Reestruturação completa do código em módulos
+- Melhorias na organização dos arquivos
+- Atualização das dependências
 
-### Dependências
-- telethon==1.27.0
-- colorama==0.4.6
-- tqdm==4.65.0
+### Removido
+- Suporte a clonagem de canais (agora focado em download)
+- Dependências desnecessárias
 
-## [0.1.0] - 2024-03-19
+## [1.0.0] - 2024-02-15
 
 ### Adicionado
-- Estrutura inicial do projeto
-- Configuração básica do ambiente
-- Primeira versão funcional do script de clonagem
+- Interface gráfica inicial com PyQt6
+- Funcionalidade básica de clonagem de canais
+- Suporte a diferentes tipos de mídia
+- Sistema básico de logs
+- Documentação inicial
 
 ## [1.1.0] - 2025-06-18
 

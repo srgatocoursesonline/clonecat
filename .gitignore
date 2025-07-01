@@ -1,17 +1,4 @@
-# Arquivos de sessão do Telethon
-*.session
-*.session-journal
-
-# Arquivos de configuração
-config.json
-
-# Diretório temporário
-temp_media/
-
-# Logs
-*.log
-
-# Arquivos do Python
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -33,18 +20,95 @@ wheels/
 .installed.cfg
 *.egg
 
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Local development
+.env
+.env.local
+.env.*.local
+
+# Telegram session files
+*.session
+*.session-journal
+
+# Cache and temporary files
+temp_storage/
+cache/
+*.db
+*.sqlite3
+
+# Media files
+media/
+documents/
+*.mp4
+*.mp3
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.zip
+*.rar
+*.7z
+
+# Arquivos de configuração
+config.json
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de sistema
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+Thumbs.db
+
 # Ambiente virtual
 venv/
 env/
 ENV/
 
-# IDEs e editores
+# IDEs
 .idea/
 .vscode/
 *.swp
 *.swo
-*~
 
-# Sistema operacional
-.DS_Store
-Thumbs.db 
+# Arquivos do Clonecat
+src/utils/logs/*
+!src/utils/logs/.gitkeep
+src/core/sessions/*
+!src/core/sessions/.gitkeep
+src/utils/temp/*
+!src/utils/temp/.gitkeep
+
+# Arquivos de build
+*.egg-info/
+dist/
+build/
+
+# Arquivos de teste
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Arquivos de ambiente
+.env
+.env.*
+
+# Pastas antigas (a serem removidas)
+gui/
+clonecat/ 

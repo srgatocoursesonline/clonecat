@@ -1,6 +1,7 @@
-telethon==1.27.0
+telethon==1.32.1
+PyQt5==5.15.10
+tqdm==4.66.2
+python-dotenv==1.0.1
 colorama==0.4.6
-tqdm==4.65.0
-PyQt6==6.6.1
 qt-material==2.14
 darkdetect==0.8.0
