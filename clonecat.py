@@ -187,11 +187,6 @@ def main():
         f.write(session_str)
     print("Conexão estabelecida com sucesso.")
 
-    # Cliente separado para downloads em background (thread-safe)
-    dl_client = TelegramClient(StringSession(session_str), api_id, api_hash,
-                               connection_retries=5, request_retries=5)
-    dl_client.connect()
-
     executor = ThreadPoolExecutor(max_workers=1)
 
     # Entrada de dados
@@ -393,8 +388,15 @@ def main():
 
                         tqdm.write(f"  [bg] Baixando proxima msg {nm.id} ({nm_mt})...")
 
-                        def _bg_download(mo=nm_mo, fp=nm_fp, mid=nm.id, mt=nm_mt):
-                            _download_sync(dl_client, mo, fp, mid, mt)
+                        def _bg_download(mo=nm_mo, fp=nm_fp, mid=nm.id, mt=nm_mt,
+                                         ss=session_str, aid=api_id, ah=api_hash):
+                            import asyncio
+                            bg = TelegramClient(StringSession(ss), aid, ah)
+                            bg.connect()
+                            try:
+                                _download_sync(bg, mo, fp, mid, mt)
+                            finally:
+                                bg.disconnect()
 
                         next_dl_future = executor.submit(_bg_download)
                         next_dl_info = (nm_fp, nm_mt, nm_text, nm.id)
@@ -476,7 +478,6 @@ def main():
     print(f"Descricao: {channel_description}")
 
     # Cleanup
-    dl_client.disconnect()
     client.disconnect()
     executor.shutdown(wait=False)
 
