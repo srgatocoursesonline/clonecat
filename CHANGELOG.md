@@ -85,6 +85,34 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - Melhor organização das configurações do usuário
 - Tratamento visual de erros e exceções
 
+## [1.4.0] - 2025-06-19
+
+### Adicionado
+- Suporte completo a supergrupos com tópicos (fórum): detecção, criação de tópicos no destino e roteamento de mensagens por tópico
+- Sistema de retomada (resume): salva progresso a cada 20 mensagens; ao final mantém o estado para clonagem incremental futura
+- Preservação de cadeia de respostas (reply chain) entre mensagens clonadas via msg_id_map
+- Pipeline de download/upload paralelo: baixa a próxima mídia em background enquanto envia a atual
+- Otimização de vídeos via FFmpeg para streaming (codec, resolução, taxa de quadros, faststart)
+- Detecção e criação de destino compatível com 4 tipos de chat: canal, grupo comum, supergrupo e fórum
+- Duas estratégias de clonagem: envio anônimo (rápido, chats sem proteção) e download+reenvio (chats protegidos)
+- Troca dinâmica de estratégia ao detectar erros de proteção de conteúdo durante a clonagem
+- Fallback para texto quando o download de mídia falha em chats protegidos
+- Persistência de sessão via StringSession em session.txt (evita re-autenticação)
+
+### Melhorado
+- Detecção de proteção de conteúdo via GetFullChannelRequest/GetFullChatRequest (noforwards, restricted, protected)
+- Filtragem de mensagens de serviço com contagem de puladas
+- Exibição de tamanho de arquivo formatado (KB/MB) durante download e upload
+- Delays ajustados: 0.5s entre textos, 2s entre mídias
+- Feedback visual detalhado para fóruns (RAW reply_to, lotes por tópico)
+
+### Corrigido
+- Indentação do loop de lotes que processava apenas o último tópico do fórum
+- Exibição da contagem de tópicos criados no destino
+
+### Dependências
+- FFmpeg (opcional, para otimização de vídeos)
+
 ## [1.3.0] - 2025-06-18
 
 ### Adicionado
